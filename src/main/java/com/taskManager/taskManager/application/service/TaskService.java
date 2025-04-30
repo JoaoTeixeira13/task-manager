@@ -73,7 +73,6 @@ public class TaskService {
 
         task.setAssignee(assignee);
         return taskRepository.save(task);
-
     }
 
     @Transactional

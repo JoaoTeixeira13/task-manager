@@ -16,7 +16,7 @@ public class TaskResponseTO {
     private TaskStatusTE status;
     private String author;
     private String assignee;
-    private Integer total_comments;
+    private Integer totalComments;
 
     public enum TaskStatusTE {
         COMPLETED,

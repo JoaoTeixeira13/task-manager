@@ -31,7 +31,7 @@ public class TaskController {
                 .status(TaskStatusTE.valueOf(task.getStatus().name()))
                 .author(task.getAuthor())
                 .assignee(task.getAssignee())
-                .total_comments(task.getTotalComments())
+                .totalComments(task.getTotalComments())
                 .build()).toList();
     }
 
