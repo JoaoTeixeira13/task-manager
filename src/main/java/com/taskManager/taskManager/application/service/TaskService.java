@@ -34,6 +34,7 @@ public class TaskService {
                 .description(taskProjectionTO.getDescription())
                 .status(taskProjectionTO.getStatus())
                 .assignee(taskProjectionTO.getAssignee())
+                .author(taskProjectionTO.getAuthor())
                 .totalComments(taskProjectionTO.getTotalComments().intValue())
                 .createdDate(taskProjectionTO.getCreatedDate())
                 .build()).toList();
@@ -49,7 +50,7 @@ public class TaskService {
                 .author(getCurrentUsername())
                 .assignee("none")
                 .build();
-
+        
         return taskRepository.save(task);
     }
 
