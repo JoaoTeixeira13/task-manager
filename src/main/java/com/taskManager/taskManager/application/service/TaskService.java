@@ -31,26 +31,13 @@ public class TaskService {
     private final CommentRepository commentRepository;
 
     public List<Task> getTasks(String author, String assignee) {
-
-        System.out.println("lists returned from repository:");
-        List<TaskProjectionTO> repositoryTasks=taskRepository.findTasksFiltered(author, assignee);
-        System.out.println(repositoryTasks);
+        List<TaskProjectionTO> repositoryTasks = taskRepository.findTasksFiltered(author, assignee);
 
         return taskApplicationMapper.mapTasks(repositoryTasks);
-//        return taskRepository.findTasksFiltered(author, assignee).stream().map(taskProjectionTO -> Task.builder().id(taskProjectionTO.getId())
-//                .title(taskProjectionTO.getTitle())
-//                .description(taskProjectionTO.getDescription())
-//                .status(taskProjectionTO.getStatus())
-//                .assignee(taskProjectionTO.getAssignee())
-//                .author(taskProjectionTO.getAuthor())
-//                .totalComments(taskProjectionTO.getTotalComments().intValue())
-//                .createdDate(taskProjectionTO.getCreatedDate())
-//                .build()).toList();
     }
 
     @Transactional
     public Task addTask(String title, String description) {
-
         Task task = Task.builder()
                 .title(title)
                 .description(description)
@@ -64,7 +51,6 @@ public class TaskService {
 
     @Transactional
     public Task updateTaskAssignee(Long taskId, String assignee) {
-
         boolean isAssigneeValid = userRepository.existsByUsername(assignee) || "none".equalsIgnoreCase(assignee);
 
         if (!isAssigneeValid) {
@@ -86,7 +72,6 @@ public class TaskService {
 
     @Transactional
     public Task updateTaskStatus(Long taskId, TaskStatus status) {
-
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Task with id '%s' was not found.".formatted(taskId)));
 
@@ -105,7 +90,6 @@ public class TaskService {
 
     @Transactional
     public void addComment(Long taskId, String text) {
-
         boolean isTaskPresent = taskRepository.existsById(taskId);
 
         if (!isTaskPresent) {

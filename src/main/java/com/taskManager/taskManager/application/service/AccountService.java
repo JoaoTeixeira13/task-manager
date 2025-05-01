@@ -16,7 +16,6 @@ public class AccountService {
 
     @Transactional
     public void registerAccount(String email, String password) {
-
         String username = email.toLowerCase();
         String encodedPassword = passwordEncoder.encode(password);
         String USER_AUTHORITY = "USER";
