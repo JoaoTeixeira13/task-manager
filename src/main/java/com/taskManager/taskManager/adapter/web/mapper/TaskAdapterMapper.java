@@ -8,6 +8,8 @@ import com.taskManager.taskManager.domain.model.Comment;
 import com.taskManager.taskManager.domain.model.Task;
 import com.taskManager.taskManager.domain.model.Task.TaskStatus;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface TaskAdapterMapper {
 
+    @Mapping(target = "totalComments", source = "totalComments", qualifiedByName = "nullSafeTotalComments")
     TaskResponseTO map(Task task);
 
     TaskStatusTE map(TaskStatus taskStatus);
@@ -24,4 +27,9 @@ public interface TaskAdapterMapper {
     CommentResponseTO map(Comment comment);
 
     List<CommentResponseTO> mapComments(List<Comment> comments);
+
+    @Named("nullSafeTotalComments")
+    static Integer nullSafeTotalComments(Integer totalComments) {
+        return totalComments != null ? totalComments : 0;
+    }
 }

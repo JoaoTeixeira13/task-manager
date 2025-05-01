@@ -30,18 +30,17 @@ public class SecurityConfig {
                 .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(POST, "/api/accounts").permitAll()
-                        .requestMatchers(POST, "/api/auth/token").authenticated()
-                        .requestMatchers(GET, "/api/tasks").authenticated()
-                        .requestMatchers(POST, "/api/tasks").authenticated()
-                        .requestMatchers(PUT, "/api/tasks/{taskId}/assign").authenticated()
-                        .requestMatchers(PUT, "/api/tasks/{taskId}/status").authenticated()
-                        .requestMatchers(POST, "/api/tasks/{taskId}/comments").authenticated()
-                        .requestMatchers("/error").permitAll()
-                        .requestMatchers("/actuator/shutdown").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers(
+                                "/api/accounts",
+                                "/error",
+                                "/actuator/shutdown"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/api/auth/token",
+                                "/api/tasks",
+                                "/api/tasks/**"
+                        ).authenticated()
+                        .anyRequest().authenticated())
                 .addFilterBefore(bearerTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
