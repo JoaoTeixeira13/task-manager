@@ -1,5 +1,7 @@
 package com.taskManager.taskManager.application.service;
 
+import com.taskManager.taskManager.application.mapper.TaskApplicationMapper;
+import com.taskManager.taskManager.domain.dto.TaskProjectionTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +25,27 @@ import static com.taskManager.taskManager.domain.model.Task.TaskStatus.CREATED;
 @RequiredArgsConstructor
 public class TaskService {
 
+    private final TaskApplicationMapper taskApplicationMapper;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
     public List<Task> getTasks(String author, String assignee) {
 
-        return taskRepository.findTasksFiltered(author, assignee).stream().map(taskProjectionTO -> Task.builder().id(taskProjectionTO.getId())
-                .title(taskProjectionTO.getTitle())
-                .description(taskProjectionTO.getDescription())
-                .status(taskProjectionTO.getStatus())
-                .assignee(taskProjectionTO.getAssignee())
-                .author(taskProjectionTO.getAuthor())
-                .totalComments(taskProjectionTO.getTotalComments().intValue())
-                .createdDate(taskProjectionTO.getCreatedDate())
-                .build()).toList();
+        System.out.println("lists returned from repository:");
+        List<TaskProjectionTO> repositoryTasks=taskRepository.findTasksFiltered(author, assignee);
+        System.out.println(repositoryTasks);
+
+        return taskApplicationMapper.mapTasks(repositoryTasks);
+//        return taskRepository.findTasksFiltered(author, assignee).stream().map(taskProjectionTO -> Task.builder().id(taskProjectionTO.getId())
+//                .title(taskProjectionTO.getTitle())
+//                .description(taskProjectionTO.getDescription())
+//                .status(taskProjectionTO.getStatus())
+//                .assignee(taskProjectionTO.getAssignee())
+//                .author(taskProjectionTO.getAuthor())
+//                .totalComments(taskProjectionTO.getTotalComments().intValue())
+//                .createdDate(taskProjectionTO.getCreatedDate())
+//                .build()).toList();
     }
 
     @Transactional

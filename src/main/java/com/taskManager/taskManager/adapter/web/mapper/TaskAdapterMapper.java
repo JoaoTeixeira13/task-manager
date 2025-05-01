@@ -8,11 +8,12 @@ import com.taskManager.taskManager.domain.model.Comment;
 import com.taskManager.taskManager.domain.model.Task;
 import com.taskManager.taskManager.domain.model.Task.TaskStatus;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface TaskMapper {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+public interface TaskAdapterMapper {
 
     TaskResponseTO map(Task task);
 
