@@ -50,7 +50,7 @@ public class TaskService {
                 .author(getCurrentUsername())
                 .assignee("none")
                 .build();
-        
+
         return taskRepository.save(task);
     }
 
